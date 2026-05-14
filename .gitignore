@@ -84,6 +84,6 @@ dmypy.json
 .pyre/
 .pytype/
 cython_debug/
-db.sqlite3/
-migration/
+#db.sqlite3/
+#migration/
 .idea/
