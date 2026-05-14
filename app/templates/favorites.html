@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Избранное — Temur Estate{% endblock %}
+
+{% block content %}
+  <section class="hero" style="min-height:32vh;">
+    <div class="hero__bg"></div>
+    <div class="hero__overlay"></div>
+    <div class="hero__content">
+      <div class="hero__eyebrow">Мои объекты</div>
+      <h1 class="hero__title" style="font-size:clamp(2rem,5vw,3rem);">Избранное <em>♥</em></h1>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section__search">
+        <input id="search" type="search" placeholder="Поиск в избранном…" />
+      </div>
+
+      <div class="cards" style="margin-top:40px;">
+
+        {% for property in properties %}
+        <a href="{% url 'property-detail' property.pk %}" class="card">
+          <div class="card__image">
+            {% if property.image %}
+                <img src="{{ property.image.url }}" alt="{{ property.title }}" loading="lazy" />
+            {% endif %}
+            <span class="card__badge">Продажа</span>
+          </div>
+          <div class="card__body">
+            <div class="card__price">${{ property.price }}</div>
+            <div class="card__title">{{ property.title }}</div>
+            <div class="card__location">{{ property.location }}</div>
+            <div class="card__meta">
+              <div class="card__meta-item"><strong>{{ property.rooms }}</strong> Комн.</div>
+              <div class="card__meta-item"><strong>{{ property.areas }}</strong> м²</div>
+              <div class="card__meta-item"><strong>{{ property.floor }}</strong> эт.</div>
+            </div>
+          </div>
+        </a>
+
+        {% empty %}
+          <p style="text-align: center; width: 100%; color: var(--muted);">В избранном пока нет объектов. Добавьте их из каталога!</p>
+        {% endfor %}
+
+      </div>
+
+      <div style="text-align:center;margin-top:48px;">
+        <a href="{% url 'properties' %}" class="button button--ghost">Добавить ещё объекты</a>
+      </div>
+    </div>
+  </section>
+{% endblock content %}

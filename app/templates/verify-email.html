@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Подтверждение Email — Temur Estate{% endblock %}
+
+{% block content %}
+  <section class="hero" style="min-height:100vh;">
+    <div class="hero__bg"></div>
+    <div class="hero__overlay"></div>
+    <div class="hero__content" style="padding:120px 24px 60px;">
+
+      <div class="card" style="max-width:480px;width:100%;margin:0 auto;padding:52px 44px;cursor:default;text-align:center;">
+        <div style="font-size:3.5rem;margin-bottom:20px;">✉️</div>
+        <div class="hero__eyebrow" style="justify-content:center;margin-bottom:16px;">Почти готово</div>
+        <h2 class="section__title" style="font-size:1.8rem;margin-bottom:16px;">Проверьте вашу почту</h2>
+
+        <p style="color:var(--muted);font-size:0.95rem;line-height:1.8;margin-bottom:32px;">
+          Мы отправили письмо с кодом подтверждения на вашу электронную почту. Пожалуйста, введите код ниже для активации аккаунта.
+        </p>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div style="padding: 12px; margin-bottom: 24px; border-radius: 6px; font-size: 0.9rem;
+                    {% if message.tags == 'error' %} background: rgba(255,107,107,0.1); color: #ff6b6b; border: 1px solid rgba(255,107,107,0.3);
+                    {% else %} background: rgba(76, 175, 80, 0.1); color: #4CAF50; border: 1px solid rgba(76, 175, 80, 0.3); {% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form action="{% url 'verify-email' %}" method="post" class="form" style="margin-bottom: 24px;">
+          {% csrf_token %}
+
+          <div class="form__group" style="text-align:left;">
+            <label style="text-align:center; display:block;">Код подтверждения</label>
+            <input type="text" name="code" placeholder="Введите код из письма" required style="text-align:center; font-size:1.1rem; letter-spacing:2px; font-weight:600;" />
+          </div>
+
+          <button type="submit" class="button" style="width:100%;justify-content:center;margin-top:16px;">
+            Подтвердить Email
+          </button>
+        </form>
+
+        <div class="divider"></div>
+
+        <p style="margin-top:24px;font-size:0.85rem;color:var(--muted);">
+          Уже подтвердили?
+          <a href="{% url 'login' %}" style="color:var(--gold); display:inline-block; margin-top:12px;">Войти в аккаунт</a>
+        </p>
+      </div>
+
+    </div>
+  </section>
+{% endblock content %}

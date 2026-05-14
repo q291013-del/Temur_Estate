@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Оставить заявку — Temur Estate{% endblock %}
+
+{% block content %}
+    <section class="section" style="padding-top:120px;min-height:100vh;">
+        <div class="container">
+            <div style="max-width:720px;margin:0 auto;">
+
+                <div style="text-align:center;margin-bottom:48px;">
+                    <div class="hero__eyebrow" style="justify-content:center;">Заявка</div>
+                    <h1 class="section__title">Оставить <em>заявку</em></h1>
+                    <p style="color:var(--muted);font-size:0.95rem;margin-top:12px;">Заполните форму — наш менеджер
+                        свяжется с вами в течение 30 минут</p>
+                </div>
+
+                <div class="grid" style="grid-template-columns:3fr 2fr;gap:32px;align-items:start;">
+
+                    <div class="card" style="padding:36px;cursor:default;">
+                        <div class="hero__eyebrow" style="justify-content:flex-start;margin-bottom:24px;">Ваши данные
+                        </div>
+
+                        {% if form.errors %}
+                            <div style="color: #e05a5a; margin-bottom: 20px; font-size: 0.85rem;">
+                                Пожалуйста, проверьте правильность заполнения полей.
+                            </div>
+                        {% endif %}
+
+                        <form method="post" class="form">
+                            {% csrf_token %}
+
+                            <div class="form__row">
+                                <div class="form__group">
+                                    <label>Имя</label>
+                                    <input type="text" name="first_name" placeholder="Алишер" required/>
+                                </div>
+                                <div class="form__group">
+                                    <label>Фамилия</label>
+                                    <input type="text" name="last_name" placeholder="Навоев" required/>
+                                </div>
+                            </div>
+                            <div class="form__group">
+                                <label>Телефон</label>
+                                <input type="tel" name="phone" placeholder="+998 90 123 45 67" required/>
+                            </div>
+                            <div class="form__group">
+                                <label>Email</label>
+                                <input type="email" name="email" placeholder="example@email.com" required/>
+                            </div>
+                            <div class="form__group">
+                                <label>Удобное время для звонка</label>
+                                <select name="call_time">
+                                    <option value="morning">Утром (9:00 – 12:00)</option>
+                                    <option value="afternoon">Днём (12:00 – 18:00)</option>
+                                    <option value="evening">Вечером (18:00 – 20:00)</option>
+                                    <option value="any">В любое время</option>
+                                </select>
+                            </div>
+                            <div class="form__group">
+                                <label>Комментарий</label>
+                                <textarea name="comment" placeholder="Дополнительные пожелания…"
+                                          style="min-height:100px;"></textarea>
+                            </div>
+
+                            <button type="submit" class="button"
+                                    style="justify-content:center; width:100%; border:none; font-family:inherit; cursor:pointer; margin-top: 10px;">
+                                Подтвердить заявку
+                            </button>
+
+                        </form>
+                    </div>
+
+                    <div>
+                        {% for item in order.items.all %}
+                            <div class="card" style="padding: 24px; margin-bottom: 24px;">
+                                <div class="hero__eyebrow" style="margin-bottom: 16px;">
+                                    {% if item.property %}Объект{% else %}Жилой комплекс{% endif %}
+                                </div>
+
+                                <div style="border-radius: 8px; overflow: hidden; margin-bottom: 16px; aspect-ratio: 16/9;">
+                                    {% if item.property and item.property.image %}
+                                        <img src="{{ item.property.image.url }}" alt=""
+                                             style="width: 100%; height: 100%; object-fit: cover;">
+                                    {% elif item.project and item.project.image %}
+                                        <img src="{{ item.project.image.url }}" alt=""
+                                             style="width: 100%; height: 100%; object-fit: cover;">
+                                    {% endif %}
+                                </div>
+
+                                <div class="card__title">
+                                    {% if item.property %}
+                                        {{ item.property.title }}
+                                    {% elif item.project %}
+                                        {{ item.project.title }}
+                                    {% endif %}
+                                </div>
+                                <div class="card__location" style="margin-bottom: 16px;">
+                                    ◎
+                                    {% if item.property %}
+                                        {{ item.property.location }}
+                                    {% elif item.project %}
+                                        {{ item.project.location }}
+                                    {% endif %}
+                                </div>
+
+                                <div class="divider" style="margin: 0 0 16px 0;"></div>
+
+                                <div style="display: flex; gap: 16px; font-size: 0.9rem; color: var(--muted);">
+                                    {% if item.property %}
+                                        <div><strong style="color: var(--ivory);">{{ item.property.rooms }}</strong>
+                                            Комн.
+                                        </div>
+                                        <div><strong style="color: var(--ivory);">{{ item.property.areas }}</strong> м²
+                                        </div>
+                                    {% elif item.project %}
+                                        <div><strong style="color: var(--ivory);">{{ item.project.floors }}</strong>
+                                            Этажей
+                                        </div>
+                                        <div>Сдача: <strong
+                                                style="color: var(--ivory);">{{ item.project.year_of_delivery }}</strong>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                        <div class="card" style="padding:24px;cursor:default;">
+                            <div class="card__location"
+                                 style="font-size:0.7rem;letter-spacing:0.2em;margin-bottom:12px;">ОБЩАЯ СТОИМОСТЬ
+                            </div>
+                            <div class="card__price" style="font-size:1.8rem;">${{ order.get_total_cost }}</div>
+                            <div class="card__location" style="margin-top:8px;">Возможна ипотека и рассрочка</div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+{% endblock content %}

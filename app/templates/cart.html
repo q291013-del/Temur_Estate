@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Корзина — Temur Estate{% endblock %}
+
+{% block content %}
+<section class="hero hero--sm">
+    <div class="hero__bg"></div>
+    <div class="hero__overlay"></div>
+    <div class="container">
+        <div class="hero__content">
+            <div class="hero__eyebrow">Мои объекты</div>
+            <h1 class="hero__title">Корзина <em>заявок</em></h1>
+            <p class="hero__sub">Объекты которые вы выбрали для оформления заявки</p>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="cart-layout">
+
+            <div>
+                <div class="hero__eyebrow">Выбранные объекты</div>
+
+                {% for item in cart_items %}
+                <div class="card card--cart cart-item">
+
+                    <div class="card__image">
+                        {% if item.product and item.product.image %}
+                            <img src="{{ item.product.image.url }}" alt="{{ item.product.title }}" loading="lazy"/>
+                        {% elif item.project and item.project.image %}
+                            <img src="{{ item.project.image.url }}" alt="{{ item.project.title }}" loading="lazy"/>
+                        {% else %}
+                            <img src="https://images.unsplash.com/photo-1613977257363-707ba9348227?w=400&q=80" alt="Превью" loading="lazy"/>
+                        {% endif %}
+                        <span class="card__badge">Заявка</span>
+                    </div>
+
+                    <div class="card__body">
+                        <div>
+                            <div class="card__title">
+                                {% if item.product %}
+                                    {{ item.product.title }}
+                                {% elif item.project %}
+                                    {{ item.project.title }}
+                                {% endif %}
+                            </div>
+                            <div class="card__location">
+                                {% if item.product %}
+                                    {{ item.product.location }}
+                                {% elif item.project %}
+                                    {{ item.project.location }}
+                                {% endif %}
+                            </div>
+
+                            <div class="card__meta">
+                                {% if item.product %}
+                                    <div class="card__meta-item"><strong>{{ item.product.rooms }}</strong> Комн.</div>
+                                    <div class="card__meta-item"><strong>{{ item.product.areas }}</strong> м²</div>
+                                {% elif item.project %}
+                                    <div class="card__meta-item"><strong>{{ item.project.floors }}</strong> Этажей</div>
+                                    <div class="card__meta-item"><strong>{{ item.project.year_of_delivery }}</strong> Сдача</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="card__row">
+                            <div class="card__price">
+                                ${% if item.product %}{{ item.product.price }}{% elif item.project %}{{ item.project.price }}{% endif %}
+                            </div>
+
+                            <form action="{% url 'remove-cart-item' item.pk %}" method="post" style="margin: 0;">
+                                {% csrf_token %}
+                                <button type="submit" class="card__remove" style="background: none; border: none; padding: 0; cursor: pointer; font-family: inherit;">
+                                    Удалить
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                    <div style="text-align: center; padding: 40px; color: var(--muted);">
+                        <p>Ваша корзина пока пуста.</p>
+                    </div>
+                {% endfor %}
+
+                <a href="{% url 'properties' %}" class="cart-clear" style="margin-top: 20px;">Очистить корзину</a>
+            </div>
+
+            <div class="cart-summary">
+                <div class="card">
+                    <div class="hero__eyebrow">Итого</div>
+
+                    <div class="summary-row">
+                        <span>Объектов в корзине</span>
+                        <span class="cart-summary__count">{{ cart_items|length }}</span>
+                    </div>
+
+                    {% for item in cart_items %}
+                    <div class="summary-row">
+                        <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px;">
+                            {% if item.product %}{{ item.product.title }}{% elif item.project %}{{ item.project.title }}{% endif %}
+                        </span>
+                        <span>${% if item.product %}{{ item.product.price }}{% elif item.project %}{{ item.project.price }}{% endif %}</span>
+                    </div>
+                    {% endfor %}
+
+                    <div class="divider"></div>
+
+                    <div class="summary-total">
+                        <div class="card__title">Общая сумма</div>
+                        <div class="card__price cart-summary__total-price">${{ cart_total|default:"0" }}</div>
+                    </div>
+
+                    <form method="post" action="{% url 'add-to-buy' %}" style="margin: 0;">
+                        {% csrf_token %}
+                        <button type="submit" class="button button--full" style="width: 100%; font-family: inherit;">
+                            Оформить заявку
+                        </button>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <div class="card__location">Нужна помощь?</div>
+                    <div class="card__title">Наш менеджер поможет</div>
+                    <div class="card__location">Ответим в течение 30 минут</div>
+                    <a href="{% url 'contact' %}" class="button button--ghost button--full">
+                        Связаться
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="cart-continue">
+            <a href="{% url 'properties' %}" class="button button--ghost">
+                Продолжить выбор объектов
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock content %}

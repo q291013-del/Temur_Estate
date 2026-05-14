@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Регистрация — Temur Estate{% endblock %}
+
+{% block content %}
+  <section class="hero" style="min-height:100vh;">
+    <div class="hero__bg"></div>
+    <div class="hero__overlay"></div>
+    <div class="hero__content" style="padding:120px 24px 60px;">
+
+      <div class="card" style="max-width:480px;width:100%;margin:0 auto;padding:44px 40px;cursor:default;text-align:left;">
+        <div style="text-align:center;margin-bottom:32px;">
+          <div class="navbar__logo" style="font-size:1.4rem;display:block;margin-bottom:8px;">Temur Estate</div>
+          <div class="card__location">Создайте аккаунт</div>
+        </div>
+
+        <form class="form" action="{% url 'register' %}" method="post">
+          {% csrf_token %}
+
+          {% if form.errors %}
+            <div style="color:#ff6b6b; margin-bottom:16px; font-size:0.9rem; background:rgba(255,107,107,0.1); padding:10px; border-radius:6px;">
+              {{ form.errors }}
+            </div>
+          {% endif %}
+
+          <div class="form__row">
+            <div class="form__group">
+              <label>Имя</label>
+              <input type="text" name="first_name" placeholder="Алишер" />
+            </div>
+            <div class="form__group">
+              <label>Фамилия</label>
+              <input type="text" name="last_name" placeholder="Навоев" />
+            </div>
+          </div>
+          <div class="form__group">
+            <label>Email Address*</label>
+            <input type="email" name="email" placeholder="example@email.com" required />
+          </div>
+          <div class="form__group">
+            <label>Телефон</label>
+            <input type="tel" name="phone" placeholder="+998 90 123 45 67" />
+          </div>
+          <div class="form__group">
+            <label>Пароль</label>
+            <input type="password" name="password1" placeholder="Минимум 8 символов" />
+          </div>
+          <div class="form__group">
+            <label>Подтвердите пароль</label>
+            <input type="password" name="password2" placeholder="Повторите пароль" />
+          </div>
+          <button type="submit" class="button" style="justify-content:center;margin-top:8px;width:100%;border:none;cursor:pointer;font-family:inherit;font-size:inherit;">
+            Создать аккаунт
+          </button>
+        </form>
+
+        <div class="divider" style="margin:24px auto;"></div>
+
+        <p style="text-align:center;font-size:0.85rem;color:var(--muted);">
+          Уже есть аккаунт? <a href="{% url 'login' %}" style="color:var(--gold);">Войти</a>
+        </p>
+      </div>
+
+    </div>
+  </section>
+{% endblock %}

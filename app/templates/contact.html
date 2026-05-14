@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Контакты — Temur Estate{% endblock %}
+
+{% block content %}
+  <section class="hero" style="min-height:38vh;">
+    <div class="hero__bg"></div>
+    <div class="hero__overlay"></div>
+    <div class="hero__content">
+      <div class="hero__eyebrow">Связаться</div>
+      <h1 class="hero__title" style="font-size:clamp(2rem,5vw,3.5rem);">Мы всегда <em>на связи</em></h1>
+      <p class="hero__sub">Напишите нам — ответим в течение нескольких часов</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid" style="grid-template-columns:1fr 1fr;gap:60px;align-items:start;">
+
+        <div>
+          <div class="hero__eyebrow" style="justify-content:flex-start;margin-bottom:16px;">Форма обратной связи</div>
+          <h2 class="section__title" style="text-align:left;font-size:2rem;margin-bottom:36px;">Напишите нам</h2>
+
+          {% if messages %}
+            {% for message in messages %}
+              <div style="padding: 16px; background-color: var(--surface2); border-left: 4px solid var(--gold); margin-bottom: 24px; color: var(--ivory);">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+
+          <form action="{% url 'contact' %}" method="post" class="form">
+            {% csrf_token %}
+            <div class="form__row">
+              <div class="form__group">
+                <label>Имя</label>
+                <input type="text" name="first_name" placeholder="Ваше имя" required />
+              </div>
+              <div class="form__group">
+                <label>Фамилия</label>
+                <input type="text" name="last_name" placeholder="Ваша фамилия" />
+              </div>
+            </div>
+            <div class="form__group">
+              <label>Email</label>
+              <input type="email" name="email" placeholder="example@email.com" required />
+            </div>
+            <div class="form__group">
+              <label>Телефон</label>
+              <input type="tel" name="phone" placeholder="+998 90 123 45 67" required />
+            </div>
+            <div class="form__group">
+              <label>Тема</label>
+              <select name="subject" required>
+                <option value="">Выберите тему</option>
+                <option value="Покупка недвижимости">Покупка недвижимости</option>
+                <option value="Аренда недвижимости">Аренда недвижимости</option>
+                <option value="Продажа объекта">Продажа объекта</option>
+                <option value="Консультация по проектам">Консультация по проектам</option>
+                <option value="Другое">Другое</option>
+              </select>
+            </div>
+            <div class="form__group">
+              <label>Сообщение</label>
+              <textarea name="message" placeholder="Опишите ваш запрос…" required></textarea>
+            </div>
+
+            <button type="submit" class="button" style="font-family: inherit; font-size: inherit;">Отправить сообщение</button>
+          </form>
+        </div>
+
+        <div>
+          <div class="hero__eyebrow" style="justify-content:flex-start;margin-bottom:16px;">Наши контакты</div>
+          <h2 class="section__title" style="text-align:left;font-size:2rem;margin-bottom:36px;">Где нас найти</h2>
+
+          <div class="card" style="padding:28px;cursor:default;margin-bottom:20px;">
+            <div class="card__location" style="font-size:0.7rem;letter-spacing:0.2em;">АДРЕС</div>
+            <div class="card__title" style="margin-top:8px;">ул. Амира Темура, 107Б</div>
+            <div class="card__location">Ташкент, Узбекистан, 100000</div>
+          </div>
+
+          <div class="card" style="padding:28px;cursor:default;margin-bottom:20px;">
+            <div class="card__location" style="font-size:0.7rem;letter-spacing:0.2em;">ТЕЛЕФОН</div>
+            <a href="tel:+998931990000" class="card__title" style="display:block;margin-top:8px;">+998 93 199 00 00</a>
+            <a href="tel:+998998336699" class="card__location">+998 99 833 66 99</a>
+          </div>
+
+          <div class="card" style="padding:28px;cursor:default;margin-bottom:20px;">
+            <div class="card__location" style="font-size:0.7rem;letter-spacing:0.2em;">EMAIL</div>
+            <a href="mailto:info@temurestate.uz" class="card__title" style="display:block;margin-top:8px;">info@temurestate.uz</a>
+            <a href="mailto:sales@temurestate.uz" class="card__location">sales@temurestate.uz</a>
+          </div>
+
+          <div class="card" style="padding:28px;cursor:default;">
+            <div class="card__location" style="font-size:0.7rem;letter-spacing:0.2em;">ЧАСЫ РАБОТЫ</div>
+            <div class="card__title" style="margin-top:8px;">Пн – Пт: 9:00 – 19:00</div>
+            <div class="card__location">Сб: 10:00 – 17:00 · Вс: Выходной</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock content %}

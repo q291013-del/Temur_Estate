@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ projects.title }} — Temur Estate{% endblock %}
+
+{% block content %}
+  <section class="hero" style="min-height:60vh;">
+    <div class="hero__bg"></div>
+    <div class="hero__overlay"></div>
+    <div style="position:absolute;inset:0;overflow:hidden;">
+      <img src="{{ projects.image.url }}" alt="{{ projects.title }}" style="width:100%;height:100%;object-fit:cover;opacity:0.4;" />
+    </div>
+    <div class="hero__content">
+      <div class="hero__eyebrow">Жилой комплекс</div>
+      <h1 class="hero__title" style="font-size:clamp(2rem,5vw,3.8rem);">{{ projects.title }}</h1>
+      <div class="card__location" style="font-size:1rem;margin-bottom:24px;">◎ {{ projects.location }}</div>
+      <div class="hero__actions">
+
+        <a href="{% url 'savatcha' %}" class="button">Оставить заявку</a>
+
+        <form action="{% url 'add-project-to-cart' projects.pk %}" method="post" style="display: inline-block;">
+          {% csrf_token %}
+          <button type="submit" class="button button--ghost" style="font-family: inherit; font-size: inherit; cursor: pointer;">
+            В корзину
+          </button>
+        </form>
+
+        <a href="{% url 'contact' %}" class="button button--ghost">Узнать цену</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid" style="grid-template-columns:2fr 1fr;gap:48px;align-items:start;">
+        <div>
+          <div class="section__header" style="text-align:left;">
+            <div class="hero__eyebrow" style="justify-content:flex-start;">О проекте</div>
+            <h2 class="section__title" style="text-align:left;font-size:2rem;">{{ projects.title }}</h2>
+          </div>
+          <p style="color:var(--ivory-dim);line-height:1.9;margin-bottom:32px;font-size:0.95rem;">
+            {{ projects.description }}
+          </p>
+
+          <div class="card" style="padding:28px;cursor:default;margin-bottom:28px;">
+            <div class="card__location" style="margin-bottom:16px;">Строительная готовность</div>
+            <div style="background:var(--surface2);border-radius:4px;height:6px;overflow:hidden;">
+              <div style="width:65%;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:4px;"></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;margin-top:10px;">
+              <div class="card__location" style="margin:0;">65% завершено</div>
+              <div class="card__location" style="margin:0;">Сдача: {{ projects.year_of_delivery }}</div>
+            </div>
+          </div>
+
+          <div class="grid" style="grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:40px;">
+            <div class="card" style="padding:20px;text-align:center;cursor:default;">
+              <div class="card__price" style="font-size:1.6rem;">{{ projects.floors }}</div>
+              <div class="card__location">Этажей</div>
+            </div>
+            <div class="card" style="padding:20px;text-align:center;cursor:default;">
+              <div class="card__price" style="font-size:1.6rem;">{{ projects.flat }}</div>
+              <div class="card__location">Квартир</div>
+            </div>
+            <div class="card" style="padding:20px;text-align:center;cursor:default;">
+              <div class="card__price" style="font-size:1.6rem;">{{ projects.year_of_delivery }}</div>
+              <div class="card__location">Год сдачи</div>
+            </div>
+          </div>
+
+          <div class="section__header" style="text-align:left;">
+            <div class="hero__eyebrow" style="justify-content:flex-start;">Инфраструктура</div>
+          </div>
+          <div class="grid" style="grid-template-columns:1fr 1fr;gap:12px;">
+            <div class="card" style="padding:16px 20px;cursor:default;">
+              <div class="card__title" style="font-size:0.95rem;">Фитнес-центр</div>
+            </div>
+            <div class="card" style="padding:16px 20px;cursor:default;">
+              <div class="card__title" style="font-size:0.95rem;">Подземный паркинг</div>
+            </div>
+            <div class="card" style="padding:16px 20px;cursor:default;">
+              <div class="card__title" style="font-size:0.95rem;">Ресторан</div>
+            </div>
+            <div class="card" style="padding:16px 20px;cursor:default;">
+              <div class="card__title" style="font-size:0.95rem;">Коворкинг</div>
+            </div>
+            <div class="card" style="padding:16px 20px;cursor:default;">
+              <div class="card__title" style="font-size:0.95rem;">Детская площадка</div>
+            </div>
+            <div class="card" style="padding:16px 20px;cursor:default;">
+              <div class="card__title" style="font-size:0.95rem;">Консьерж 24/7</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="padding:32px;position:sticky;top:88px;cursor:default;">
+          <div class="hero__eyebrow" style="justify-content:flex-start;margin-bottom:16px;">Стоимость</div>
+          <div class="card__price" style="font-size:1.6rem;">от ${{ projects.price }}</div>
+          <div class="card__location" style="margin-bottom:24px;">Студии от 38 м²</div>
+          <div class="divider" style="margin:0 0 24px 0;"></div>
+
+          <div class="form">
+            <label>Планировка</label>
+            <select>
+              <option>Студия (38–55 м²)</option>
+              <option>1 комната (60–80 м²)</option>
+              <option>2 комнаты (85–120 м²)</option>
+              <option>3 комнаты (130–180 м²)</option>
+              <option>Пентхаус (220+ м²)</option>
+            </select>
+            <label>Ваше имя</label>
+            <input type="text" placeholder="Алишер Навоев" />
+            <label>Телефон</label>
+            <input type="tel" placeholder="+998 90 123 45 67" />
+
+            <a href="{% url 'savatcha' %}" class="button" style="justify-content:center;">Получить консультацию</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock content %}

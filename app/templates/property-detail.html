@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ properties.title }} — Temur Estate{% endblock %}
+
+{% block content %}
+  <section class="hero" style="min-height:60vh;">
+    <div class="hero__bg"></div>
+    <div class="hero__overlay"></div>
+    <div style="position:absolute;inset:0;overflow:hidden;">
+      {% if properties.image %}
+        <img src="{{ properties.image.url }}" alt="{{ properties.title }}" style="width:100%;height:100%;object-fit:cover;opacity:0.45;" />
+      {% endif %}
+    </div>
+    <div class="hero__content">
+      <div class="hero__eyebrow">Продажа</div>
+      <h1 class="hero__title" style="font-size:clamp(2rem,5vw,3.8rem);">{{ properties.title }}</h1>
+      <div class="card__location" style="font-size:1rem;margin-bottom:24px;">{{ properties.location }}</div>
+      <div class="card__price" style="font-size:2.2rem;margin-bottom:32px;">${{ properties.price }}</div>
+      <div class="hero__actions">
+
+        <a href="{% url 'savatcha' %}" class="button">Оставить заявку</a>
+
+        <form action="{% url 'add-to-cart' properties.pk %}" method="post" style="display: inline-block;">
+          {% csrf_token %}
+          <button type="submit" class="button button--ghost" style="font-family: inherit; font-size: inherit; cursor: pointer;">
+            В корзину
+          </button>
+        </form>
+        </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid" style="grid-template-columns:2fr 1fr;gap:48px;align-items:start;">
+
+        <div>
+          <div class="section__header" style="text-align:left;">
+            <div class="hero__eyebrow" style="justify-content:flex-start;">Описание</div>
+            <h2 class="section__title" style="text-align:left;font-size:2rem;">Об объекте</h2>
+          </div>
+
+          <p style="color:var(--ivory-dim);line-height:1.9;margin-bottom:32px;font-size:0.95rem;">
+              {{ properties.description }}
+          </p>
+
+          <div class="section__header" style="text-align:left;margin-top:40px;">
+            <div class="hero__eyebrow" style="justify-content:flex-start;">Характеристики</div>
+          </div>
+
+          <div class="grid" style="grid-template-columns:1fr 1fr;gap:16px;margin-bottom:40px;">
+            <div class="card" style="padding:20px 24px;cursor:default;">
+              <div class="card__location">Площадь</div>
+              <div class="card__price" style="font-size:1.4rem;">{{ properties.areas }} м²</div>
+            </div>
+            <div class="card" style="padding:20px 24px;cursor:default;">
+              <div class="card__location">Комнат</div>
+              <div class="card__price" style="font-size:1.4rem;">{{ properties.rooms }}</div>
+            </div>
+            <div class="card" style="padding:20px 24px;cursor:default;">
+              <div class="card__location">Этаж</div>
+              <div class="card__price" style="font-size:1.4rem;">32 из 45</div>
+            </div>
+            <div class="card" style="padding:20px 24px;cursor:default;">
+              <div class="card__location">Терраса</div>
+              <div class="card__price" style="font-size:1.4rem;">60 м²</div>
+            </div>
+            <div class="card" style="padding:20px 24px;cursor:default;">
+              <div class="card__location">Гараж</div>
+              <div class="card__price" style="font-size:1.4rem;">2 места</div>
+            </div>
+            <div class="card" style="padding:20px 24px;cursor:default;">
+              <div class="card__location">Год постройки</div>
+              <div class="card__price" style="font-size:1.4rem;">2023</div>
+            </div>
+          </div>
+
+          <div class="section__header" style="text-align:left;">
+            <div class="hero__eyebrow" style="justify-content:flex-start;">Галерея</div>
+          </div>
+          <div class="grid" style="grid-template-columns:repeat(3,1fr);gap:12px;">
+            <div class="card__image" style="height:160px;border-radius:14px;overflow:hidden;">
+              <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=400&q=80" alt="Гостиная" loading="lazy" />
+            </div>
+            <div class="card__image" style="height:160px;border-radius:14px;overflow:hidden;">
+              <img src="https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=400&q=80" alt="Кухня" loading="lazy" />
+            </div>
+            <div class="card__image" style="height:160px;border-radius:14px;overflow:hidden;">
+              <img src="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=400&q=80" alt="Спальня" loading="lazy" />
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="padding:32px;position:sticky;top:88px;cursor:default;">
+          <div class="card__price" style="font-size:1.8rem;margin-bottom:4px;">${{ properties.price }}</div>
+          <div class="card__location" style="margin-bottom:28px;">{{ properties.title }}</div>
+          <div class="divider" style="margin:0 0 28px 0;"></div>
+
+          <div class="form">
+            <label>Ваше имя</label>
+            <input type="text" placeholder="Алишер Навоев" />
+            <label>Телефон</label>
+            <input type="tel" placeholder="+998 90 123 45 67" />
+            <label>Сообщение</label>
+            <textarea placeholder="Хочу узнать подробности…" style="min-height:90px;"></textarea>
+
+            <a href="{% url 'savatcha' %}" class="button" style="justify-content:center;">Перейти к оформлению</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="section__header" style="margin-top:80px;">
+        <div class="hero__eyebrow">Похожие объекты</div>
+        <h2 class="section__title">Вам может понравиться</h2>
+      </div>
+
+      <div class="cards">
+        <a href="{% url 'property-detail' properties.pk %}" class="card">
+          <div class="card__image">
+            {% if properties.image %}
+              <img src="{{ properties.image.url }}" alt="{{ properties.title }}" loading="lazy" />
+            {% endif %}
+            <span class="card__badge">Рекомендуем</span>
+          </div>
+          <div class="card__body">
+            <div class="card__price">${{ properties.price }}</div>
+            <div class="card__title">{{ properties.title }}</div>
+            <div class="card__location">{{ properties.location }}</div>
+            <div class="card__meta">
+              <div class="card__meta-item"><strong>{{ properties.rooms }}</strong> Комн.</div>
+              <div class="card__meta-item"><strong>{{ properties.areas }}</strong> м²</div>
+            </div>
+          </div>
+        </a>
+
+        <a href="{% url 'property-detail' properties.pk %}" class="card">
+          <div class="card__image">
+              <img src="{{ properties.image.url }}" alt="{{ properties.title }}" loading="lazy" />
+            <span class="card__badge">Аренда</span>
+          </div>
+          <div class="card__body">
+            <div class="card__price">${{ properties.price }}</div>
+            <div class="card__title">{{ properties.title }}</div>
+            <div class="card__location">{{ properties.location }}</div>
+            <div class="card__meta">
+              <div class="card__meta-item"><strong>{{ properties.rooms }}</strong> Комн.</div>
+              <div class="card__meta-item"><strong>{{ properties.areas }}</strong> м²</div>
+            </div>
+          </div>
+        </a>
+      </div>
+
+    </div>
+  </section>
+{% endblock content %}

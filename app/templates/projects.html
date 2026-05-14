@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Проекты — Temur Estate{% endblock %}
+
+{% block content %}
+  <section class="hero" style="min-height:40vh;">
+    <div class="hero__bg"></div>
+    <div class="hero__overlay"></div>
+    <div class="hero__content">
+      <div class="hero__eyebrow">Девелопмент</div>
+      <h1 class="hero__title" style="font-size:clamp(2rem,5vw,3.5rem);">Наши <em>проекты</em></h1>
+      <p class="hero__sub">Жилые комплексы и коммерческие объекты премиум-класса</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section__search">
+        <input id="search" type="search" placeholder="Поиск по проектам…" />
+      </div>
+
+      <div class="cards" style="margin-top:40px;">
+          {% for project in projects %}
+        <a href="{% url 'project-detail' project.pk %}" class="card">
+          <div class="card__image">
+
+            <img src="{{ project.image.url }}" alt="{{ project.title }}" loading="lazy" />
+
+              <span class="card__badge">Строится</span>
+          </div>
+          <div class="card__body">
+            <div class="card__price">от ${{ project.price }}</div>
+            <div class="card__title">{{ project.title }}</div>
+            <div class="card__location">{{ project.location }}</div>
+            <div class="card__meta">
+              <div class="card__meta-item"><strong>{{ project.floors }}</strong> этажей</div>
+              <div class="card__meta-item"><strong>{{ project.flat }}</strong> квартир</div>
+              <div class="card__meta-item"><strong>{{ project.year_of_delivery }}</strong></div>
+            </div>
+          </div>
+        </a>
+          {% endfor %}
+      </div>
+    </div>
+  </section>
+{% endblock content %}

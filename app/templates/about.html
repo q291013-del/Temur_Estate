@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}О нас — Temur Estate{% endblock %}
+
+{% block content %}
+  <section class="hero" style="min-height:44vh;">
+    <div class="hero__bg"></div>
+    <div class="hero__overlay"></div>
+    <div class="hero__content">
+      <div class="hero__eyebrow">Наша история</div>
+      <h1 class="hero__title" style="font-size:clamp(2rem,5vw,3.5rem);">О компании <em>Temur Estate</em></h1>
+      <p class="hero__sub">Лидер рынка недвижимости Узбекистана с 2012 года</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid" style="grid-template-columns:1fr 1fr;gap:60px;align-items:center;">
+        <div>
+          <div class="hero__eyebrow" style="justify-content:flex-start;">Миссия</div>
+          <h2 class="section__title" style="text-align:left;font-size:2.2rem;">Мы строим <em>мечты</em></h2>
+          <p style="color:var(--ivory-dim);line-height:1.9;margin-bottom:20px;font-size:0.95rem;">
+            Temur Estate — это не просто агентство недвижимости. Это команда профессионалов, которые помогают людям найти место, где они будут счастливы. Мы работаем с самыми эксклюзивными объектами Узбекистана и делаем каждую сделку прозрачной и комфортной.
+          </p>
+          <p style="color:var(--ivory-dim);line-height:1.9;font-size:0.95rem;">
+            За 12 лет работы мы помогли более 2000 семей найти свой идеальный дом и реализовали 40+ девелоперских проектов общей стоимостью свыше $500 млн.
+          </p>
+        </div>
+        <div class="card__image" style="height:400px;border-radius:22px;overflow:hidden;">
+          <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=700&q=80" alt="Наш офис" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background:var(--surface);">
+    <div class="container">
+      <div class="section__header">
+        <div class="hero__eyebrow">В цифрах</div>
+        <h2 class="section__title">Наши достижения</h2>
+      </div>
+      <div class="grid">
+        <div class="card" style="padding:36px;text-align:center;cursor:default;">
+          <div class="card__price" style="font-size:2.4rem;" data-counter>2000+</div>
+          <div class="card__title">Довольных клиентов</div>
+          <div class="card__location">Которые нашли свой дом</div>
+        </div>
+        <div class="card" style="padding:36px;text-align:center;cursor:default;">
+          <div class="card__price" style="font-size:2.4rem;" data-counter>40+</div>
+          <div class="card__title">Реализованных проектов</div>
+          <div class="card__location">По всему Узбекистану</div>
+        </div>
+        <div class="card" style="padding:36px;text-align:center;cursor:default;">
+          <div class="card__price" style="font-size:2.4rem;" data-counter>12</div>
+          <div class="card__title">Лет опыта</div>
+          <div class="card__location">На рынке недвижимости</div>
+        </div>
+        <div class="card" style="padding:36px;text-align:center;cursor:default;">
+          <div class="card__price" style="font-size:2.4rem;" data-counter>$500M+</div>
+          <div class="card__title">Объём сделок</div>
+          <div class="card__location">Успешно закрытых</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section__header">
+        <div class="hero__eyebrow">Команда</div>
+        <h2 class="section__title">Наши <em>эксперты</em></h2>
+        <p class="section__sub">Профессионалы с многолетним опытом</p>
+      </div>
+
+      <div class="cards">
+        <div class="card" style="cursor:default;">
+          <div class="card__image">
+            <img src="" alt="Темур Арифджанов" loading="lazy" />
+          </div>
+          <div class="card__body">
+            <div class="card__title">Темур Арифджанов</div>
+            <div class="card__location">Основатель и CEO</div>
+            <p style="font-size:0.85rem;color:var(--muted);line-height:1.7;margin-top:12px;">12 лет в сфере недвижимости. Эксперт по премиум-сегменту и девелопменту.</p>
+          </div>
+        </div>
+
+        <div class="card" style="cursor:default;">
+          <div class="card__image">
+            <img src="" alt="Жасур Арифджанов" loading="lazy" />
+          </div>
+          <div class="card__body">
+            <div class="card__title">Жасур Арифджанов</div>
+            <div class="card__location">Директор по продажам</div>
+            <p style="font-size:0.85rem;color:var(--muted);line-height:1.7;margin-top:12px;">Специалист по сделкам с жилой недвижимостью. Более 500 успешных сделок.</p>
+          </div>
+        </div>
+
+        <div class="card" style="cursor:default;">
+          <div class="card__image">
+            <img src="" alt="Иброхим Шокиров " loading="lazy" />
+          </div>
+          <div class="card__body">
+            <div class="card__title">Иброхим Шокиров</div>
+            <div class="card__location">Главный архитектор</div>
+            <p style="font-size:0.85rem;color:var(--muted);line-height:1.7;margin-top:12px;">Дипломированный архитектор, специализирующийся на жилых комплексах.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background:var(--surface);">
+    <div class="container">
+      <div class="section__header">
+        <div class="hero__eyebrow">Принципы</div>
+        <h2 class="section__title">Наши ценности</h2>
+      </div>
+      <div class="grid">
+        <div class="card" style="padding:36px;cursor:default;">
+          <div class="card__price" style="font-size:2rem;margin-bottom:8px;">◈</div>
+          <div class="card__title">Прозрачность</div>
+          <p style="color:var(--muted);font-size:0.88rem;line-height:1.8;margin-top:8px;">Полная открытость на всех этапах сделки. Никаких скрытых условий.</p>
+        </div>
+        <div class="card" style="padding:36px;cursor:default;">
+          <div class="card__price" style="font-size:2rem;margin-bottom:8px;">◈</div>
+          <div class="card__title">Экспертиза</div>
+          <p style="color:var(--muted);font-size:0.88rem;line-height:1.8;margin-top:8px;">Глубокое знание рынка и проверенные методики оценки объектов.</p>
+        </div>
+        <div class="card" style="padding:36px;cursor:default;">
+          <div class="card__price" style="font-size:2rem;margin-bottom:8px;">◈</div>
+          <div class="card__title">Сервис</div>
+          <p style="color:var(--muted);font-size:0.88rem;line-height:1.8;margin-top:8px;">Индивидуальный подход и сопровождение клиента на всём пути.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock content %}

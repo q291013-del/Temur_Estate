@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Объекты — Temur Estate{% endblock %}
+
+{% block content %}
+<section class="hero" style="min-height:38vh;">
+    <div class="hero__bg"></div>
+    <div class="hero__overlay"></div>
+    <div class="hero__content">
+        <div class="hero__eyebrow">Каталог</div>
+        <h1 class="hero__title" style="font-size:clamp(2rem,5vw,3.5rem);">Все <em>объекты</em></h1>
+        <p class="hero__sub">Найдите идеальную недвижимость для покупки или аренды</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="section__search">
+            <input id="search" type="search" placeholder="Поиск по названию, локации, цене…"/>
+        </div>
+
+        <div class="form" style="flex-direction:row;flex-wrap:wrap;gap:16px;margin-top:24px;margin-bottom:40px;">
+            <select style="flex:1;min-width:160px;padding:15px 20px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:6px;color:var(--ivory);font-family:'DM Sans',sans-serif;font-size:0.92rem;outline:none;appearance:none;">
+                <option value="">Тип объекта</option>
+                <option>Квартира</option>
+                <option>Дом / Вилла</option>
+                <option>Пентхаус</option>
+                <option>Коммерческая</option>
+            </select>
+            <select style="flex:1;min-width:160px;padding:15px 20px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:6px;color:var(--ivory);font-family:'DM Sans',sans-serif;font-size:0.92rem;outline:none;appearance:none;">
+                <option value="">Район</option>
+                <option>Мирабадский</option>
+                <option>Юнусабадский</option>
+                <option>Чиланзарский</option>
+                <option>Мирзо-Улугбекский</option>
+            </select>
+            <select style="flex:1;min-width:160px;padding:15px 20px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:6px;color:var(--ivory);font-family:'DM Sans',sans-serif;font-size:0.92rem;outline:none;appearance:none;">
+                <option value="">Цена</option>
+                <option>До $100 000</option>
+                <option>$100 000 — $300 000</option>
+                <option>$300 000 — $700 000</option>
+                <option>От $700 000</option>
+            </select>
+            <select style="flex:1;min-width:160px;padding:15px 20px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:6px;color:var(--ivory);font-family:'DM Sans',sans-serif;font-size:0.92rem;outline:none;appearance:none;">
+                <option value="">Сделка</option>
+                <option>Продажа</option>
+                <option>Аренда</option>
+            </select>
+        </div>
+
+        <div class="cards">
+            {% for property in properties %}
+                <a href="{% url 'property-detail' property.pk %}" class="card">
+
+                    <div class="card__image">
+                            <img src="{{ property.image.url }}" alt="{{ property.title }}" loading="lazy"/>
+
+                        <span class="card__badge">{{ property.category.title }}</span>
+                    </div>
+
+                    <div class="card__body">
+                        <div class="card__price">${{ property.price}}</div>
+
+                        <div class="card__title">{{ property.title }}</div>
+
+                        <div class="card__location">{{ property.text }}</div>
+
+                        <div class="card__meta">
+                            {% if property.rooms %}
+                            <div class="card__meta-item"><strong>{{ property.rooms }}</strong> Комн.</div>
+                            {% endif %}
+                            {% if property.area %}
+                            <div class="card__meta-item"><strong>{{ property.area }}</strong> м²</div>
+                            {% endif %}
+                            {% if property.floor %}
+                            <div class="card__meta-item"><strong>{{ property.floor }}</strong> эт.</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock content %}

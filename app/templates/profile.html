@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Профиль — Temur Estate{% endblock %}
+
+{% block content %}
+    <section class="section" style="padding-top:100px;min-height:100vh;">
+        <div class="container">
+            <div class="grid" style="grid-template-columns:300px 1fr;gap:40px;align-items:start;">
+
+                <div>
+                    <div class="card" style="padding:32px;text-align:center;cursor:default;margin-bottom:20px;">
+                        <div style="width:80px;height:80px;border-radius:50%;background:var(--surface2);border:2px solid var(--border);margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:2rem;">
+                            👤
+                        </div>
+                        <div class="card__title">
+                            {% if user.first_name %}
+                                {{ user.first_name }} {{ user.last_name }}
+                            {% else %}
+                                {{ user.username }}
+                            {% endif %}
+                        </div>
+                        <div class="card__location">{{ user.email }}</div>
+
+                        <div class="card__location" style="margin-top:4px;">+998 XX XXX XX XX</div>
+                    </div>
+
+                    <div class="card" style="padding:20px;cursor:default;">
+                        <ul class="footer__links">
+                            <li><a href="{% url 'profile' %}" style="color:var(--gold-light);">Мои данные</a></li>
+                            <li><a href="{% url 'favorites' %}">Избранное</a></li>
+                            <li><a href="{% url 'savatcha' %}">Корзина</a></li>
+                            <li><a href="{% url 'logout' %}" style="color:var(--muted);">Выйти</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="section__header" style="text-align:left;margin-bottom:32px;">
+                        <div class="hero__eyebrow" style="justify-content:flex-start;">Аккаунт</div>
+                        <h2 class="section__title" style="text-align:left;font-size:2rem;">Мои <em>данные</em></h2>
+                    </div>
+
+                    <div class="card" style="padding:36px;cursor:default;margin-bottom:24px;">
+                        <div class="hero__eyebrow" style="justify-content:flex-start;margin-bottom:24px;">Личная
+                            информация
+                        </div>
+
+                        <form action="" method="POST" class="form">
+                            {% csrf_token %}
+                            <div class="form__row">
+                                <div class="form__group">
+                                    <label>Имя</label>
+                                    <input type="text" name="first_name" value="{{ user.first_name }}"/>
+                                </div>
+                                <div class="form__group">
+                                    <label>Фамилия</label>
+                                    <input type="text" name="last_name" value="{{ user.last_name }}"/>
+                                </div>
+                            </div>
+                            <div class="form__group">
+                                <label>Email</label>
+                                <input type="email" name="email" value="{{ user.email }}"/>
+                            </div>
+                            <div class="form__group">
+                                <label>Телефон</label>
+                                <input type="tel" name="phone" placeholder="+998 XX XXX XX XX"/>
+                            </div>
+                            <button type="submit" class="button">Сохранить изменения</button>
+                        </form>
+                    </div>
+
+                    <div class="card" style="padding:36px;cursor:default;">
+                        <div class="hero__eyebrow" style="justify-content:flex-start;margin-bottom:12px;">Изменить
+                            пароль
+                        </div>
+                        <div class="card__location" style="margin-bottom:24px;">Для изменения пароля потребуется
+                            подтверждение личности
+                        </div>
+                        <a href="#" class="button button--ghost">Изменить пароль</a>
+                    </div>
+
+                    <div style="margin-top:40px;">
+                        <div class="section__header" style="text-align:left;margin-bottom:24px;">
+                            <div class="hero__eyebrow" style="justify-content:flex-start;">Активность</div>
+                            <h3 class="section__title" style="text-align:left;font-size:1.4rem;">Мои заявки</h3>
+                        </div>
+
+                        <div class="cards">
+                            {% for order in orders %}
+                                <div class="card" style="cursor:default; margin-bottom: 20px;">
+                                    <div class="card__body">
+                                        <div class="card__badge" style="position:static; display:inline-block; margin-bottom:16px; background: var(--gold); color: var(--background); text-transform: uppercase; font-weight: 700; font-size: 0.75rem; letter-spacing: 0.1em; padding: 4px 12px; border-radius: 4px;">
+                                            {{ order.get_status_display }}
+                                        </div>
+
+                                        <div class="card__title" style="margin-bottom: 8px;">
+                                            {% for item in order.items.all %}
+                                                {% if item.property %}
+                                                    {{ item.property.title }}
+                                                {% elif item.project %}
+                                                    {{ item.project.title }}
+                                                {% endif %}
+                                                {% if not forloop.last %}, {% endif %}
+                                            {% endfor %}
+                                        </div>
+
+                                        <div class="card__location" style="text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.85rem;">
+                                            ◎ Заявка от {{ order.created_at|date:"j F Y" }}
+                                        </div>
+
+                                        <div class="divider" style="margin: 16px 0;"></div>
+
+                                        <div class="card__meta">
+                                            <div class="card__meta-item" style="font-size: 1.2rem; color: var(--ivory);">
+                                                <strong>${{ order.get_total_cost }}</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% empty %}
+                                <div class="card" style="padding: 32px; text-align: center; color: var(--ivory-dim); cursor: default;">
+                                    <p style="margin-bottom: 16px;">У вас пока нет оформленных заявок.</p>
+                                    <a href="{% url 'properties' %}" class="button button--ghost" style="display: inline-flex; justify-content: center;">Перейти к объектам</a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+{% endblock content %}
